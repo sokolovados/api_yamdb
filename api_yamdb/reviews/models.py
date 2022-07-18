@@ -5,7 +5,6 @@ User = get_user_model()
 
 
 class Categories(models.Model):
-
     name = models.CharField(
         'name',
         max_length=200,
@@ -18,7 +17,6 @@ class Categories(models.Model):
 
 
 class Genres(models.Model):
-
     name = models.CharField(
         'name',
         max_length=200,
@@ -31,7 +29,6 @@ class Genres(models.Model):
 
 
 class Titles(models.Model):
-
     name = models.CharField(
         'name',
         max_length=200,
@@ -41,7 +38,6 @@ class Titles(models.Model):
         'year',
         null=True,
         blank=True,
-
     )
 
     genre = models.ForeignKey(
