@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .serealizers import *
+from api.Categories_Genres_Titles.serealizers import *
 
 from reviews.models import Categories, Genres, Titles
 
