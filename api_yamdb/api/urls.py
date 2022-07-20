@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
-from .auth_users.views import SignUpView
+from .auth_users.views import SignUpView, UserViewSet
 
 from api.Categories_Genres_Titles.views import (
     CategoriesViewSet,
@@ -15,6 +15,7 @@ app_name = 'api'
 
 router_v1 = DefaultRouter()
 router_v1.register(r'auth', SignUpView, basename='auth')
+router_v1.register(r'users', UserViewSet)
 
 router_v1.register(
     'titles',
