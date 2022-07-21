@@ -73,6 +73,7 @@ class SignUpView(ModelViewSet):
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    serializer_class = UserSerializerPrivelege
     permission_classes = (AdminOnly, )
     search_fields = ('username',)
     lookup_field = 'username'
