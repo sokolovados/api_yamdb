@@ -3,13 +3,13 @@ from django.db import models
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from users.models import User
+
+# from users.models import User
+
+User = get_user_model()
 
 
-# User = get_user_model()
-
-
-class Category(models.Model): #V
+class Categories(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -21,7 +21,7 @@ class Category(models.Model): #V
     )
 
 
-class Genre(models.Model): #V
+class Genres(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -33,7 +33,7 @@ class Genre(models.Model): #V
     )
 
 
-class Title(models.Model):
+class Titles(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -45,33 +45,35 @@ class Title(models.Model):
         blank=True,
     )
 
-    rating = models.IntegerField(
-        default=None,
+    genre = models.ForeignKey(
+        Genres,
+        on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        related_name='genre'
+    )
+
+    category = models.ForeignKey(
+        Categories,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='category'
     )
 
     description = models.CharField(
         'description',
-        null=True,
-        blank=True,
         max_length=200,
-    )
-
-    genre = models.ManyToManyField(
-        Genre,
-        blank=True,
-    )
-
-    category = models.ForeignKey(
-        Category,
         null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='titles'
     )
 
-
+    # reviews = models.ForeignKey(
+    #     'reviews',
+    #     Reviews,
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     blank=True,
+    # )
 
 class Review(models.Model):
     text = models.TextField(
@@ -88,7 +90,7 @@ class Review(models.Model):
         verbose_name='Автор публикации',
     )
     title = models.ForeignKey(
-        Title,
+        Titles,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Произведение',
