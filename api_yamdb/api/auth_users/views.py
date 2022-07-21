@@ -73,7 +73,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
-    permission_classes = (AdminOnly,)
+    permission_classes = (AdminOnly, )
     search_fields = ('username',)
     lookup_field = 'username'
 
