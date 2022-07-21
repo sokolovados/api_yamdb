@@ -8,7 +8,7 @@ from api.Categories_Genres_Titles.serealizers import *
 
 from reviews.models import Category, Genre, Title
 
-from api.Categories_Genres_Titles.permissions import AuthorOrReadOnly
+from api.Categories_Genres_Titles.permissions import AdminOrReadOnly
 
 from api.Categories_Genres_Titles.filters import TitlesFilter
 
@@ -21,7 +21,7 @@ class CategoriesViewSet(
 ):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
-    permission_classes = [AuthorOrReadOnly]
+    permission_classes = [AdminOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [SearchFilter]
     search_fields = ["name"]
@@ -36,7 +36,7 @@ class GenresViewSet(
 ):
     queryset = Genre.objects.all()
     serializer_class = GenresSerializer
-    permission_classes = [AuthorOrReadOnly]
+    permission_classes = [AdminOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [SearchFilter]
     search_fields = ["name"]
@@ -46,7 +46,7 @@ class GenresViewSet(
 class TitlesViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.all()
     serializer_class = TitlesGetSerializer
-    permission_classes = [AuthorOrReadOnly]
+    permission_classes = [AdminOrReadOnly]
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitlesFilter

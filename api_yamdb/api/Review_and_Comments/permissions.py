@@ -10,6 +10,6 @@ class IsAdminOrStaff(BasePermission):
 
         return (
                 obj.author == request.user or
-                request.user.is_admin or
-                request.user.is_moderator
+                request.user.role == 'admin' or
+                request.user.role == 'moderator'
         )
