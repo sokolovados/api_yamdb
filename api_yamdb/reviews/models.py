@@ -3,10 +3,10 @@ from django.db import models
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from users.models import User
 
-# from users.models import User
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class Category(models.Model): #V
@@ -70,6 +70,7 @@ class Title(models.Model):
         on_delete=models.SET_NULL,
         related_name='titles'
     )
+
 
 
 class Review(models.Model):
