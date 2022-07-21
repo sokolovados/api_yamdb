@@ -37,7 +37,15 @@ class UserConfirmSerializer(serializers.Serializer):
         return attrs
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializerPrivelege(serializers.ModelSerializer):
     class Meta:
         fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'role')
+        model = User
+
+
+class UserSerializerUnprivelege(serializers.ModelSerializer):
+
+    class Meta:
+        fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'role')
+        read_only_fields = ('role',)
         model = User

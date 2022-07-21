@@ -2,14 +2,13 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 from .auth_users.views import SignUpView, UserViewSet
-
-from api.Categories_Genres_Titles.views import (
+from .Review_and_Comments.views import CommentViewSet, ReviewViewSet
+from .Categories_Genres_Titles.views import (
     CategoriesViewSet,
     GenresViewSet,
     TitlesViewSet,
 )
 
-from api.Review_and_Comments.views import CommentViewSet, ReviewViewSet
 
 app_name = 'api'
 
@@ -35,9 +34,10 @@ router_v1.register(
     basename='categories'
 )
 
-router_v1.register(r'titles/(?P<title_id>\d+)/reviews',
-                   ReviewViewSet, basename='ReviewsView'
-                   )
+router_v1.register(
+    r'titles/(?P<title_id>\d+)/reviews',
+    ReviewViewSet, basename='ReviewsView'
+)
 
 router_v1.register(
     r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments',
