@@ -8,14 +8,15 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
-from rest_framework import filters, status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 from users.models import User
-from .permissions import AdminOnly, UserOnly, IsAuthenticated
+from .permissions import AdminOnly
 from .serializers import (
-    SelfUserSerializer, UserConfirmSerializer, UserSerializer
+    SelfUserSerializer, UserConfirmSerializer,
+    UserSerializerPrivelege, UserSerializerUnprivelege
 )
 
 logger = logging.getLogger(__name__)
@@ -71,9 +72,9 @@ class SignUpView(ModelViewSet):
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
-    permission_classes = (AdminOnly,)
+    serializer_class = UserSerializerPrivelege
+    permission_classes = (AdminOnly, )
     search_fields = ('username',)
     lookup_field = 'username'
 
@@ -82,11 +83,17 @@ class UserViewSet(ModelViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def me(self, request):
+        if request.user.role == 'user':
+            serializer_class = UserSerializerUnprivelege
+        else:
+            serializer_class = UserSerializerPrivelege
+
         if request.method == 'GET':
-            serializer = UserSerializer(request.user)
+
+            serializer = serializer_class(request.user)
             return Response(serializer.data)
 
-        serializer = UserSerializer(request.user, request.data, partial=True)
+        serializer = serializer_class(request.user, request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
