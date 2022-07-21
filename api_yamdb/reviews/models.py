@@ -3,8 +3,8 @@ from django.db import models
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
 from users.models import User
+
 
 # User = get_user_model()
 
@@ -74,6 +74,7 @@ class Titles(models.Model):
     #     null=True,
     #     blank=True,
     # )
+
 
 class Review(models.Model):
     text = models.TextField(
