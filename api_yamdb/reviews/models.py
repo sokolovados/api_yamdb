@@ -33,7 +33,7 @@ class Genre(models.Model): #V
     )
 
 
-class Titles(models.Model):
+class Title(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -60,7 +60,6 @@ class Titles(models.Model):
 
     genre = models.ManyToManyField(
         Genre,
-        null=True,
         blank=True,
     )
 
@@ -88,7 +87,7 @@ class Review(models.Model):
         verbose_name='Автор публикации',
     )
     title = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Произведение',

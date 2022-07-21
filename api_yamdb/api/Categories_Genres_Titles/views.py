@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 
@@ -8,12 +8,17 @@ from api.Categories_Genres_Titles.serealizers import *
 
 from reviews.models import Category, Genre, Title
 
-from permissions import AuthorOrReadOnly
+from api.Categories_Genres_Titles.permissions import AuthorOrReadOnly
 
-from filters import TitlesFilter
+from api.Categories_Genres_Titles.filters import TitlesFilter
 
 
-class CategoriesViewSet(viewsets.ModelViewSet):
+class CategoriesViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
     permission_classes = [AuthorOrReadOnly]
@@ -23,7 +28,12 @@ class CategoriesViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
 
 
-class GenresViewSet(viewsets.ModelViewSet):
+class GenresViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Genre.objects.all()
     serializer_class = GenresSerializer
     permission_classes = [AuthorOrReadOnly]
