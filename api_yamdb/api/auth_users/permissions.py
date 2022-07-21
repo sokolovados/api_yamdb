@@ -11,17 +11,6 @@ class AdminOnly(permissions.BasePermission):
         return False
 
 
-# class AdminOnly(permissions.BasePermission):
-#     def has_permission(self, request, view, obj):
-#         if request.user.is_authenticated:
-#             return (
-#                     request.user.is_superuser or
-#                     request.user.role == 'admin' or
-#                     obj.username == request.user.username
-#             )
-#         return False
-
-
 class UserOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return (

@@ -4,7 +4,12 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from api.Categories_Genres_Titles.serealizers import *
+from api.Categories_Genres_Titles.serealizers import (
+    CategoriesSerializer,
+    GenresSerializer,
+    TitlesGetSerializer,
+    TitlesPostSerializer
+)
 
 from reviews.models import Category, Genre, Title
 
