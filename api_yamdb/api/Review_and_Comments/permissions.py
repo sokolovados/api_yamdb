@@ -9,7 +9,7 @@ class IsAdminOrStaff(BasePermission):
             return False
 
         return (
-                obj.author == request.user or
-                request.user.role == 'admin' or
-                request.user.role == 'moderator'
+                obj.author == request.user
+                or request.user.role == 'admin'
+                or request.user.role == 'moderator'
         )
