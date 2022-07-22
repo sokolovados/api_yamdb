@@ -99,4 +99,3 @@ DRF simplejwt 4.7<br>
 Вадим Соколов https://github.com/sokolovados
 Максим Волочковский https://github.com/VarrySPb
 Данил Воронин https://github.com/Bogdan-Malina
-
