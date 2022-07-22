@@ -8,6 +8,7 @@ from users.models import User
 # noinspection PyMethodMayBeStatic
 class SelfUserSerializer(serializers.ModelSerializer):
     """ Serializer for user registration. """
+
     class Meta:
         fields = ('username', 'email')
         model = User
@@ -43,14 +44,20 @@ class UserConfirmSerializer(serializers.Serializer):
 
 class UserSerializerPrivelege(serializers.ModelSerializer):
     """ User Serializer for admins and moderators. """
+
     class Meta:
-        fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'role')
+        fields = (
+            'username', 'email', 'first_name', 'last_name', 'bio', 'role'
+        )
         model = User
 
 
 class UserSerializerUnprivelege(serializers.ModelSerializer):
     """ User serializer for user. (Role - read-only)"""
+
     class Meta:
-        fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'role')
+        fields = (
+            'username', 'email', 'first_name', 'last_name', 'bio', 'role'
+        )
         read_only_fields = ('role',)
         model = User
