@@ -5,7 +5,6 @@ from rest_framework import validators
 from users.models import User
 
 
-# noinspection PyMethodMayBeStatic
 class SelfUserSerializer(serializers.ModelSerializer):
     """ Serializer for user registration. """
 
@@ -22,7 +21,6 @@ class SelfUserSerializer(serializers.ModelSerializer):
         return value
 
 
-# noinspection PyAbstractClass
 class UserConfirmSerializer(serializers.Serializer):
     """Serializer for generate jwt token. """
     username = serializers.CharField(max_length=256)
