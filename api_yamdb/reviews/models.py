@@ -1,15 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.db import models
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
-# from users.models import User
-
-User = get_user_model()
+from users.models import User
 
 
-class Categories(models.Model):
+class Category(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -21,7 +16,7 @@ class Categories(models.Model):
     )
 
 
-class Genres(models.Model):
+class Genre(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -33,7 +28,7 @@ class Genres(models.Model):
     )
 
 
-class Titles(models.Model):
+class Title(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -45,35 +40,32 @@ class Titles(models.Model):
         blank=True,
     )
 
-    genre = models.ForeignKey(
-        Genres,
-        on_delete=models.SET_NULL,
+    rating = models.IntegerField(
+        default=None,
         null=True,
-        blank=True,
-        related_name='genre'
-    )
-
-    category = models.ForeignKey(
-        Categories,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='category'
+        blank=True
     )
 
     description = models.CharField(
         'description',
-        max_length=200,
         null=True,
+        blank=True,
+        max_length=200,
     )
 
-    # reviews = models.ForeignKey(
-    #     'reviews',
-    #     Reviews,
-    #     on_delete=models.CASCADE,
-    #     null=True,
-    #     blank=True,
-    # )
+    genre = models.ManyToManyField(
+        Genre,
+        blank=True,
+    )
+
+    category = models.ForeignKey(
+        Category,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='titles'
+    )
+
 
 class Review(models.Model):
     text = models.TextField(
@@ -90,7 +82,7 @@ class Review(models.Model):
         verbose_name='Автор публикации',
     )
     title = models.ForeignKey(
-        Titles,
+        Title,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Произведение',
@@ -104,6 +96,8 @@ class Review(models.Model):
     )
 
     class Meta:
+        unique_together = ('author', 'title',)
+
         ordering = (
             '-pub_date',
         )
