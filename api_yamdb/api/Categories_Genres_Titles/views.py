@@ -1,62 +1,20 @@
-from rest_framework import viewsets, mixins
-from rest_framework.filters import SearchFilter
-from rest_framework.pagination import LimitOffsetPagination
-
-from django_filters.rest_framework import DjangoFilterBackend
-
-from api.Categories_Genres_Titles.serealizers import (
-    CategoriesSerializer,
-    GenresSerializer,
-    TitlesGetSerializer,
-    TitlesPostSerializer
-)
+from rest_framework import viewsets
+from api.Categories_Genres_Titles.serealizers import *
 
 from reviews.models import Category, Genre, Title
 
-from api.Categories_Genres_Titles.permissions import AdminOrReadOnly
 
-from api.Categories_Genres_Titles.filters import TitlesFilter
-
-
-class CategoriesViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
-):
+class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
-    permission_classes = [AdminOrReadOnly]
-    pagination_class = LimitOffsetPagination
-    filter_backends = [SearchFilter]
-    search_fields = ["name"]
-    lookup_field = "slug"
 
 
-class GenresViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
-):
+class GenresViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenresSerializer
-    permission_classes = [AdminOrReadOnly]
-    pagination_class = LimitOffsetPagination
-    filter_backends = [SearchFilter]
-    search_fields = ["name"]
-    lookup_field = "slug"
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.all()
-    serializer_class = TitlesGetSerializer
-    permission_classes = [AdminOrReadOnly]
-    pagination_class = LimitOffsetPagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = TitlesFilter
+    serializer_class = TitlesSerializer
 
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return TitlesGetSerializer
-        return TitlesPostSerializer
