@@ -1,15 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.db import models
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from users.models import User
 
 
-# User = get_user_model()
-
-
-class Category(models.Model): #V
+class Category(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -21,7 +16,7 @@ class Category(models.Model): #V
     )
 
 
-class Genre(models.Model): #V
+class Genre(models.Model):
     name = models.CharField(
         'name',
         max_length=200,
@@ -72,7 +67,6 @@ class Title(models.Model):
     )
 
 
-
 class Review(models.Model):
     text = models.TextField(
         verbose_name='Текст',
@@ -102,6 +96,8 @@ class Review(models.Model):
     )
 
     class Meta:
+        unique_together = ('author', 'title',)
+
         ordering = (
             '-pub_date',
         )

@@ -74,7 +74,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
     serializer_class = UserSerializerPrivelege
-    permission_classes = (AdminOnly, )
+    permission_classes = (AdminOnly,)
     search_fields = ('username',)
     lookup_field = 'username'
 
@@ -83,13 +83,17 @@ class UserViewSet(ModelViewSet):
         permission_classes=(IsAuthenticated,)
     )
     def me(self, request):
+        """
+        Current user information.
+        :param request:
+        :return: request with user info
+        """
         if request.user.role == 'user':
             serializer_class = UserSerializerUnprivelege
         else:
             serializer_class = UserSerializerPrivelege
 
         if request.method == 'GET':
-
             serializer = serializer_class(request.user)
             return Response(serializer.data)
 

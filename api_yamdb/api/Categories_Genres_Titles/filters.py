@@ -8,7 +8,6 @@ from reviews.models import Title
 
 
 class TitlesFilter(FilterSet):
-
     category = CharFilter(lookup_expr="slug")
     genre = CharFilter(lookup_expr="slug")
     name = CharFilter(lookup_expr="contains")
