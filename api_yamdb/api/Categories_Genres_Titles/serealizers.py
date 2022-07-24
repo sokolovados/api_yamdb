@@ -9,18 +9,16 @@ from reviews.models import (
 
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = (
-            "name",
-            "slug",
+        exclude = (
+            "id",
         )
         model = Category
 
 
 class GenresSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = (
-            "name",
-            "slug",
+        exclude = (
+            "id",
         )
         model = Genre
 

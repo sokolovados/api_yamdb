@@ -19,12 +19,16 @@ from api.Categories_Genres_Titles.permissions import AdminOrReadOnly
 from api.Categories_Genres_Titles.filters import TitlesFilter
 
 
-class CategoriesViewSet(
+class CategotiesGenresViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
+    pass
+
+
+class CategoriesViewSet(CategotiesGenresViewSet):
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
     permission_classes = [AdminOrReadOnly]
@@ -34,12 +38,7 @@ class CategoriesViewSet(
     lookup_field = "slug"
 
 
-class GenresViewSet(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
-):
+class GenresViewSet(CategotiesGenresViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenresSerializer
     permission_classes = [AdminOrReadOnly]
