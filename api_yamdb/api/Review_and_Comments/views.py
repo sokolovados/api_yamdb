@@ -21,9 +21,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
         title = get_object_or_404(Title, pk=title_id)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user, title=title)
-        title.rating = (Review.objects.filter(title=title).aggregate(Avg(
-            'score'))['score__avg'])
-        title.save(update_fields=['rating'])
+        # title.rating = (Review.objects.filter(title=title).aggregate(Avg(
+        #     'score'))['score__avg'])
+        # title.save(update_fields=['rating'])
 
     def perform_create(self, serializer):
         self.serializing_plus_calculation(serializer)

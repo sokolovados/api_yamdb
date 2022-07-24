@@ -40,11 +40,11 @@ class Title(models.Model):
         blank=True,
     )
 
-    rating = models.IntegerField(
-        default=None,
-        null=True,
-        blank=True
-    )
+    # rating = models.IntegerField(
+    #     default=None,
+    #     null=True,
+    #     blank=True
+    # )
 
     description = models.CharField(
         'description',

@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
@@ -49,7 +50,9 @@ class GenresViewSet(
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
-    queryset = Title.objects.all()
+    queryset = Title.objects.annotate(
+        rating=Avg('reviews__score')
+    )
     serializer_class = TitlesGetSerializer
     permission_classes = [AdminOrReadOnly]
     pagination_class = LimitOffsetPagination
