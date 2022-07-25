@@ -8,7 +8,7 @@ class AdminOnly(permissions.BasePermission):
         return (
                 request.user.is_authenticated
                 and (
-                        request.user.is_superuser
-                        or request.user.is_admin
+                    request.user.is_superuser
+                    or request.user.is_admin
                 )
         )
