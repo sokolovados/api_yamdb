@@ -1,4 +1,3 @@
-from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -21,14 +20,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
         title = get_object_or_404(Title, pk=title_id)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user, title=title)
-        # title.rating = (Review.objects.filter(title=title).aggregate(Avg(
-        #     'score'))['score__avg'])
-        # title.save(update_fields=['rating'])
 
     def perform_create(self, serializer):
-        self.serializing_plus_calculation(serializer)
-
-    def perform_update(self, serializer):
         self.serializing_plus_calculation(serializer)
 
     def get_serializer_context(self):
