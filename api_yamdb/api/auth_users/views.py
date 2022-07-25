@@ -35,22 +35,21 @@ class SignUpView(ModelViewSet):
         :return: Response
         """
         serializer = SelfUserSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            user, create = User.objects.get_or_create(
-                email=request.data['email'],
-                username=request.data['username'],
-            )
-            if create:
-                user.confirmation_code = secrets.token_hex(32)
-            user.save()
+        serializer.is_valid(raise_exception=True)
+        user, _ = User.objects.get_or_create(
+            email=request.data['email'],
+            username=request.data['username'],
+        )
+        user.confirmation_code = secrets.token_hex(32)
+        user.save()
 
-            send_mail(
-                subject='YAmdb email confirmation',
-                message=user.confirmation_code,
-                from_email="yamdb@.test.ru",
-                recipient_list={user.email}
-            )
-            return Response(request.data)
+        send_mail(
+            subject='YAmdb email confirmation',
+            message=user.confirmation_code,
+            from_email="yamdb@.test.ru",
+            recipient_list={user.email}
+        )
+        return Response(request.data)
 
     @action(detail=False, methods=['post'])
     def token(self, request):
@@ -60,14 +59,14 @@ class SignUpView(ModelViewSet):
         :return:
         """
         serializer = UserConfirmSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            user = get_object_or_404(
-                User,
-                username=request.data[
-                    'username']
-            )
-            token = RefreshToken.for_user(user)
-            return Response(str(token.access_token))
+        serializer.is_valid(raise_exception=True)
+        user = get_object_or_404(
+            User,
+            username=request.data[
+                'username']
+        )
+        token = RefreshToken.for_user(user)
+        return Response(str(token.access_token))
 
 
 class UserViewSet(ModelViewSet):
@@ -88,11 +87,7 @@ class UserViewSet(ModelViewSet):
         :param request:
         :return: request with user info
         """
-        if request.user.role == 'user':
-            serializer_class = UserSerializerUnprivelege
-        else:
-            serializer_class = UserSerializerPrivelege
-
+        serializer_class = UserSerializerUnprivelege
         if request.method == 'GET':
             serializer = serializer_class(request.user)
             return Response(serializer.data)

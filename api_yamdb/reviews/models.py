@@ -38,6 +38,7 @@ class Title(models.Model):
         'Год',
         null=True,
         blank=True,
+        db_index=True
     )
 
     description = models.CharField(
@@ -92,6 +93,11 @@ class Review(models.Model):
     )
 
     class Meta:
+        """
+        Согласно ТЗ:
+        На одно произведение пользователь
+        может оставить только один отзыв.
+        """
         unique_together = ('author', 'title',)
 
         ordering = (
