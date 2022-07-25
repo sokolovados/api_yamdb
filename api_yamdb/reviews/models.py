@@ -6,48 +6,42 @@ from users.models import User
 
 class Category(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     slug = models.SlugField(
-        'slug',
+        'Слуг',
         unique=True
     )
 
 
 class Genre(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     slug = models.SlugField(
-        'slug',
+        'Слуг',
         unique=True
     )
 
 
 class Title(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     year = models.IntegerField(
-        'year',
+        'Год',
         null=True,
         blank=True,
     )
 
-    rating = models.IntegerField(
-        default=None,
-        null=True,
-        blank=True
-    )
-
     description = models.CharField(
-        'description',
+        'Описание',
         null=True,
         blank=True,
         max_length=200,
@@ -56,6 +50,7 @@ class Title(models.Model):
     genre = models.ManyToManyField(
         Genre,
         blank=True,
+        verbose_name='Жанр'
     )
 
     category = models.ForeignKey(
@@ -63,7 +58,8 @@ class Title(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='titles'
+        related_name='titles',
+        verbose_name='Категория'
     )
 
 
@@ -89,7 +85,7 @@ class Review(models.Model):
     )
     score = models.PositiveSmallIntegerField(
         validators=[
-            MaxValueValidator(10),
+            MaxValueValidator(10, 'Оценка не может превышать 10'),
             MinValueValidator(1),
         ],
         verbose_name='Оценка',
