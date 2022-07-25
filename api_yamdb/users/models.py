@@ -25,10 +25,26 @@ class User(AbstractUser):
         max_length=256, choices=USER_ROLES,
         default=USER
     )
-    confirmation_code = models.CharField(max_length=256)
+    confirmation_code = models.CharField(
+        max_length=256,
+        unique=True
+    )
 
     class Meta:
         models.UniqueConstraint(
             fields=['user', 'email'],
             name='unique subscription'
         )
+
+    @property
+    def is_admin(self):
+        return self.role == 'admin'
+
+    @property
+    def is_moderator(self):
+        return self.role == 'moderator'
+
+    @property
+    def is_user(self):
+        return self.role == 'user'
+
