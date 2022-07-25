@@ -38,6 +38,7 @@ class Title(models.Model):
         'Год',
         null=True,
         blank=True,
+        db_index=True
     )
 
     description = models.CharField(
