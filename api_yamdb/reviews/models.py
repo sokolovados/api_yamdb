@@ -93,6 +93,11 @@ class Review(models.Model):
     )
 
     class Meta:
+        """
+        Согласно ТЗ:
+        На одно произведение пользователь
+        может оставить только один отзыв.
+        """
         unique_together = ('author', 'title',)
 
         ordering = (
