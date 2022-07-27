@@ -9,18 +9,16 @@ from reviews.models import (
 
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = (
-            "name",
-            "slug",
+        exclude = (
+            "id",
         )
         model = Category
 
 
 class GenresSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = (
-            "name",
-            "slug",
+        exclude = (
+            "id",
         )
         model = Genre
 
@@ -35,14 +33,16 @@ class TitlesGetSerializer(serializers.ModelSerializer):
         many=True
     )
 
+    rating = serializers.IntegerField(
+        read_only=True
+    )
+
     class Meta:
-        fields = ('id',
-                  'name',
-                  'category',
-                  'genre',
-                  'year',
-                  'description',
-                  'rating',)
+        fields = (
+            'id', 'name', 'year',
+            'rating', 'description',
+            'genre', 'category'
+        )
         model = Title
 
 
@@ -53,11 +53,19 @@ class TitlesPostSerializer(serializers.ModelSerializer):
         many=True,
     )
 
+    rating = serializers.IntegerField(
+        read_only=True
+    )
+
     category = serializers.SlugRelatedField(
         queryset=Category.objects.all(),
         slug_field="slug",
     )
 
     class Meta:
-        fields = "__all__"
+        fields = (
+            'id', 'name', 'year',
+            'rating', 'description',
+            'genre', 'category'
+        )
         model = Title

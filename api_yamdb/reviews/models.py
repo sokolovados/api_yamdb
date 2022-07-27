@@ -6,48 +6,43 @@ from users.models import User
 
 class Category(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     slug = models.SlugField(
-        'slug',
+        'Слуг',
         unique=True
     )
 
 
 class Genre(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     slug = models.SlugField(
-        'slug',
+        'Слуг',
         unique=True
     )
 
 
 class Title(models.Model):
     name = models.CharField(
-        'name',
+        'Имя',
         max_length=200,
     )
 
     year = models.IntegerField(
-        'year',
+        'Год',
         null=True,
         blank=True,
-    )
-
-    rating = models.IntegerField(
-        default=None,
-        null=True,
-        blank=True
+        db_index=True
     )
 
     description = models.CharField(
-        'description',
+        'Описание',
         null=True,
         blank=True,
         max_length=200,
@@ -56,6 +51,7 @@ class Title(models.Model):
     genre = models.ManyToManyField(
         Genre,
         blank=True,
+        verbose_name='Жанр'
     )
 
     category = models.ForeignKey(
@@ -63,7 +59,8 @@ class Title(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='titles'
+        related_name='titles',
+        verbose_name='Категория'
     )
 
 
@@ -96,7 +93,13 @@ class Review(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = 'Отзывы'
+        """
+        Согласно ТЗ:
+        На одно произведение пользователь
+        может оставить только один отзыв.
+        """
+        verbose_name='Отзыв'
+        verbose_name_plural='Отзывы'
         unique_together = ('author', 'title',)
 
         ordering = (
@@ -126,7 +129,8 @@ class Comment(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = 'Комментарии'
+        verbose_name='Комментарий'
+        verbose_name_plural='Комментарии'
         ordering = (
             '-pub_date',
         )
