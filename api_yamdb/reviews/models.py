@@ -96,6 +96,7 @@ class Review(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = 'Отзывы'
         unique_together = ('author', 'title',)
 
         ordering = (
@@ -125,6 +126,7 @@ class Comment(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = 'Комментарии'
         ordering = (
             '-pub_date',
         )
