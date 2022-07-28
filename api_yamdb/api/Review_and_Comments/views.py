@@ -15,14 +15,11 @@ class ReviewViewSet(viewsets.ModelViewSet):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
         return title.reviews.all()
 
-    def serializing_plus_calculation(self, serializer):
+    def perform_create(self, serializer):
         title_id = self.kwargs.get('title_id')
         title = get_object_or_404(Title, pk=title_id)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=self.request.user, title=title)
-
-    def perform_create(self, serializer):
-        self.serializing_plus_calculation(serializer)
 
     def get_serializer_context(self):
         return {'title_id': self.kwargs['title_id'], 'request': self.request}
