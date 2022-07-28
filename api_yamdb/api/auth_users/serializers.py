@@ -12,11 +12,11 @@ class SelfUserSerializer(serializers.ModelSerializer):
         fields = ('username', 'email')
         model = User
 
-    def validate_username(self, value):
+    def validate_username(self, value: str):
         """
         Checks if the username is not 'me'.
         """
-        if value == 'me':
+        if value.lower() == 'me':
             raise validators.ValidationError('Username cannot be "me"')
         return value
 

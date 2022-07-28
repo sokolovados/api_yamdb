@@ -94,12 +94,11 @@ class Review(models.Model):
 
     class Meta:
         """
-        Согласно ТЗ:
         На одно произведение пользователь
         может оставить только один отзыв.
         """
-        verbose_name='Отзыв'
-        verbose_name_plural='Отзывы'
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
         unique_together = ('author', 'title',)
 
         ordering = (
@@ -129,8 +128,8 @@ class Comment(models.Model):
     )
 
     class Meta:
-        verbose_name='Комментарий'
-        verbose_name_plural='Комментарии'
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
         ordering = (
             '-pub_date',
         )

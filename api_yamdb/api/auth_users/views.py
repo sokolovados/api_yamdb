@@ -2,6 +2,7 @@ import secrets
 import logging
 
 from django.core.mail import send_mail
+from django.conf import settings
 
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -46,10 +47,10 @@ class SignUpView(ModelViewSet):
         send_mail(
             subject='YAmdb email confirmation',
             message=user.confirmation_code,
-            from_email="yamdb@.test.ru",
+            from_email=settings.SERVICE_MAIL,
             recipient_list={user.email}
         )
-        return Response(request.data)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def token(self, request):
@@ -93,6 +94,6 @@ class UserViewSet(ModelViewSet):
             return Response(serializer.data)
 
         serializer = serializer_class(request.user, request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
